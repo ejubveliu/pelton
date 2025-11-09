@@ -1,0 +1,9 @@
+schwerpunkt eher auf anwendungsdokumentation, verschiedene python tools MÜSSEN getestet werden
+
+Proof of Concept für 3 tools zum auswerten der tools als - quick & dirty
+
+aufbau doku zb setup allgemein, environment, versuche mit diversen tools, resultate
+unbeidngt laufend dokumentieren - damit man auch etwas sieht
+
+
+WICHTIG - Leute kontaktieren
