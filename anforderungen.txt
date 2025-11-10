@@ -7,3 +7,12 @@ unbeidngt laufend dokumentieren - damit man auch etwas sieht
 
 
 WICHTIG - Leute kontaktieren
+
+nochmal abklären wegen datenvertraulichkeit (h2o)
+
+google colab für ipynb
+
+quantifizieren von parameter um zu schauen welche grösseren einfluss haben als andere
+
+mitteln von daten auch wichtig
+
