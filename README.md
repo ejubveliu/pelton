@@ -1,2 +1,2 @@
-# pelton
-research fellow project hslu
+# resfel
+personal project on automl studies
