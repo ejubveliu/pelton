@@ -16,3 +16,6 @@ quantifizieren von parameter um zu schauen welche grösseren einfluss haben als 
 
 mitteln von daten auch wichtig
 
+daten anonym machen - rownames entfernen und nur zusammenhänge der zahlen füttern
+
+
