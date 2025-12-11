@@ -2,13 +2,13 @@ import os, re, glob
 import numpy as np
 import pandas as pd
 
-# === Einstellungen ===
+# constants
 DATA_GLOB = "labdata/Zusammenfassung_*.txt"   # Pfad zu deinen TXT-Files
-OUTPUT_CSV = "pelton_master.csv"            # Output-Datei
+OUTPUT_CSV = "data_anon.csv"            # Output-Datei
 KEEP_COLS = ["MP_Name", "eta", "Q_A", "n_rpm", "H_tot", "T_Water", "rho"]  # wichtigste Messgrössen
 ABRASION_MAP = "abrasion_mapping.csv"       # optional: Mapping Stage → Abrasion (mm/%)
 
-# === Hilfsfunktion: Einzelnes File einlesen ===
+# function to parse txt file
 def parse_one_txt(path: str) -> pd.DataFrame:
     # 1. Spaltennamen lesen (erste Zeile), zweite Zeile (Einheiten) überspringen
     with open(path, "r", encoding="utf-8") as f:
@@ -43,6 +43,8 @@ def parse_one_txt(path: str) -> pd.DataFrame:
 
 # === Hauptteil ===
 files = sorted(glob.glob(DATA_GLOB))
+# TEST MODE: nur ein File verarbeiten
+files = files[:1]
 if not files:
     raise FileNotFoundError("Keine Dateien gefunden – überprüfe den Pfad in DATA_GLOB.")
 
@@ -68,6 +70,19 @@ base = ["MP_Name", "eta", "n_rpm", "Q_A", "H_tot", "T_Water", "rho", "n1", "Q1",
 extra = [c for c in master.columns if c not in base]
 master = master[base + extra]
 
-# CSV schreiben
-master.to_csv(OUTPUT_CSV, index=False)
-print(f"✔ {OUTPUT_CSV} erstellt ({len(master)} Zeilen, {len(master.columns)} Spalten).")
+# === Anonymisierung: generische Spaltennamen ===
+feature_cols = [c for c in master.columns if c not in ["eta", "MP_Name", "stage_id"]]
+mapping = {}
+for i, col in enumerate(feature_cols, start=1):
+    mapping[col] = f"f{i}"
+mapping["eta"] = "y"
+
+anon = master.copy()
+anon = anon.rename(columns=mapping)
+
+# Optional: MP_Name und stage_id entfernen
+anon = anon.drop(columns=["MP_Name", "stage_id"], errors="ignore")
+
+# Anonymisierte CSV speichern
+anon.to_csv(OUTPUT_CSV, index=False)
+print(f"✔ {OUTPUT_CSV} erstellt ({len(anon)} Zeilen, {len(anon.columns)} Spalten).")
